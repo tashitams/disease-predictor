@@ -1,0 +1,439 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="max-w-md w-full mx-auto" x-data="diseasePredictor">
+        <!-- Brand and Logo Area -->
+        <div class="text-center mb-4">
+            <div class="flex justify-center mb-3">
+                <div class="h-12 w-12 rounded-full flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 210.01 233.05"><defs><style>.cls-1{fill:none;stroke:#212683;stroke-miterlimit:10;stroke-width:6px}.cls-2{fill:#1f268e}</style></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="cls-1" d="M200.48 190.76 147.93 222a31 31 0 0 1-10 3.79l-19.34 3.69a31.45 31.45 0 0 1-13.87-.49l-46.6-12.31a44.62 44.62 0 0 0-22.43-.11l-23.12 5.9a7.44 7.44 0 0 1-9.4-6.94L3 189.23a7.21 7.21 0 0 1 4.67-6.74l48.08-18.84A31 31 0 0 1 66 161.53l32.22-1.18 23.53-.87h.36a10.65 10.65 0 1 1 .14 21.28l-43.84.24a3.39 3.39 0 0 0-3.41 3.37v.19a3.38 3.38 0 0 0 3 3.13l20.41 2.57 29.33 3.69a14.56 14.56 0 0 0 8.22-1.36L184.37 169l2.68-1.3a14.2 14.2 0 0 1 6.11-1.43 13.93 13.93 0 0 1 10.94 5.11 13 13 0 0 1-3.62 19.38z"/><path class="cls-1" d="M185.1 169.76c-.24-.28-.48-.55-.73-.81a24.16 24.16 0 0 0-27.66-5.21L135 173.82l-2.25 1M138.39 58h-18.24a1.21 1.21 0 0 1-1.21-1.21V38.55a1.21 1.21 0 0 0-1.21-1.21H94.14a1.21 1.21 0 0 0-1.21 1.21v18.23A1.21 1.21 0 0 1 91.71 58H73.48a1.21 1.21 0 0 0-1.21 1.21V82.8a1.21 1.21 0 0 0 1.21 1.2h18.23a1.21 1.21 0 0 1 1.21 1.21v18.23a1.21 1.21 0 0 0 1.21 1.21h23.59a1.21 1.21 0 0 0 1.21-1.21V85.22a1.21 1.21 0 0 1 1.22-1.22h18.23a1.21 1.21 0 0 0 1.21-1.21V59.2a1.21 1.21 0 0 0-1.2-1.2z"/><path class="cls-1" d="M171.83 87.85a68 68 0 1 1 0-33.7"/><path class="cls-2" d="M31.24 126.23h-2.1v-2.1A2.59 2.59 0 0 0 24 124v2.1h-2.1a2.59 2.59 0 1 0-.1 5.17h2.1v2.1a2.59 2.59 0 0 0 5.17.1v-2.1h2.1a2.59 2.59 0 0 0 .1-5.17zM194.3 126.23h-2.1v-2.1a2.59 2.59 0 0 0-5.17-.1v2.1h-2.1a2.59 2.59 0 1 0-.1 5.17h2.1v2.1a2.59 2.59 0 0 0 5.17.1v-2.1h2.1a2.59 2.59 0 0 0 .1-5.17zM197.25 27.78h-2.13v-2.13a2.62 2.62 0 0 0-5.24-.1v2.13h-2.13a2.62 2.62 0 1 0-.1 5.24h2.13v2.13a2.62 2.62 0 0 0 5.24.1L195 33h2.13a2.62 2.62 0 0 0 .1-5.24z"/><circle cx="171.83" cy="71" r="3.29" style="fill:#212683"/><path class="cls-1" d="M85.26 26.61H82.7a18.19 18.19 0 0 0-18.19 18.2M103.43 37.33V71M103.43 75.5v4.75M28.55 174.31v44.08M47.05 167.06v22.69M47.05 193.25V199"/></g></g></svg>
+                </div>
+            </div>
+            <h2 class="text-xl font-bold text-gray-900">ICT619 - AI Powered Disease Predictor</h2>
+            <p class="mt-2 text-sm text-gray-600">Submit your symptoms for assessment</p>
+        </div>
+
+        <!-- Form Card -->
+        <div class="bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-6 py-8">
+                <form @submit.prevent="predictDisease">
+                    <!-- Symptoms Section -->
+                    <div class="mb-8">
+                        <h3 class="text-lg font-medium text-gray-900 mb-4">Symptoms</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                            id="fever"
+                                            x-model="formData.fever"
+                                            type="checkbox"
+                                            class="h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                                    />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="fever" class="font-medium text-gray-700">
+                                        Fever
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                            id="cough"
+                                            x-model="formData.cough"
+                                            type="checkbox"
+                                            class="h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                                    />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="cough" class="font-medium text-gray-700">
+                                        Cough
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                            id="fatigue"
+                                            x-model="formData.fatigue"
+                                            type="checkbox"
+                                            class="h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                                    />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="fatigue" class="font-medium text-gray-700">
+                                        Fatigue
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <div class="flex items-center h-5">
+                                    <input
+                                            id="difficulty-breathing"
+                                            x-model="formData.difficulty_breathing"
+                                            type="checkbox"
+                                            class="h-4 w-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500"
+                                    />
+                                </div>
+                                <div class="ml-3 text-sm">
+                                    <label for="difficulty-breathing" class="font-medium text-gray-700">
+                                        Difficulty Breathing
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Age Section -->
+                    <div class="mb-8">
+                        <label for="age" class="block text-sm font-medium text-gray-700 mb-1">
+                            Age
+                        </label>
+                        <input
+                                type="number"
+                                id="age"
+                                x-model="formData.age"
+                                min="1"
+                                max="120"
+                                class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border"
+                                placeholder="Enter your age"
+                                required
+                        />
+                    </div>
+
+                    <!-- Gender Section -->
+                    <div class="mb-8">
+                        <span class="block text-sm font-medium text-gray-700 mb-2">Gender</span>
+                        <div class="flex space-x-6">
+                            <div class="flex items-center">
+                                <input
+                                        id="male"
+                                        name="gender"
+                                        type="radio"
+                                        x-model="formData.gender"
+                                        value="Male"
+                                        class="h-4 w-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                                        required
+                                />
+                                <label for="male" class="ml-3 block text-sm font-medium text-gray-700">
+                                    Male
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input
+                                        id="female"
+                                        name="gender"
+                                        type="radio"
+                                        x-model="formData.gender"
+                                        value="Female"
+                                        class="h-4 w-4 text-emerald-600 border-gray-300 focus:ring-emerald-500"
+                                        required
+                                />
+                                <label for="female" class="ml-3 block text-sm font-medium text-gray-700">
+                                    Female
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blood Pressure Section -->
+                    <div class="mb-8">
+                        <label for="blood-pressure" class="block text-sm font-medium text-gray-700 mb-1">
+                            Blood Pressure
+                        </label>
+                        <select
+                                id="blood-pressure"
+                                x-model="formData.blood_pressure"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md border"
+                                required
+                        >
+                            <option value="">Select blood pressure</option>
+                            <option value="Low">Low</option>
+                            <option value="Normal">Normal</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <!-- Cholesterol Level Section -->
+                    <div class="mb-8">
+                        <label for="cholesterol" class="block text-sm font-medium text-gray-700 mb-1">
+                            Cholesterol Level
+                        </label>
+                        <select
+                                id="cholesterol"
+                                x-model="formData.cholesterol"
+                                class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm rounded-md border"
+                                required
+                        >
+                            <option value="">Select cholesterol level</option>
+                            <option value="Low">Low</option>
+                            <option value="Normal">Normal</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <button
+                                type="submit"
+                                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+                                :disabled="loading"
+                        >
+                            <span x-show="!loading">Submit Symptoms</span>
+                            <span x-show="loading" class="flex items-center">
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div x-show="result" x-transition class="mt-6 bg-white shadow rounded-lg overflow-hidden">
+            <div class="px-6 py-4">
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Prediction Result</h3>
+
+                <template x-if="result.error">
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                            </div>
+                            <div class="ml-3">
+                                <p class="text-sm text-red-700" x-text="result.error"></p>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <template x-if="result.disease">
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <span class="text-gray-700 mr-2">Predicted Disease:</span>
+                            <span class="font-bold text-indigo-600" x-text="result.disease"></span>
+                        </div>
+
+                        <div class="flex items-center">
+                            <span class="text-gray-700 mr-2">Confidence Level:</span>
+                            <span class="font-bold"
+                                  :class="{
+                                    'text-green-500': result.probability > 0.7,
+                                    'text-yellow-500': result.probability > 0.4 && result.probability <= 0.7,
+                                    'text-red-500': result.probability <= 0.4
+                                }"
+                                  x-text="(result.probability * 100).toFixed(1) + '%'"></span>
+                        </div>
+
+                        <div x-show="result.description" class="mt-4 p-4 bg-blue-50 rounded-lg">
+                            <h3 class="font-bold text-indigo-600">About this condition:</h3>
+                            <p class="mt-2" x-text="result.description"></p>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 text-center text-xs text-gray-500">
+            Designed & Developed by Group 3.
+        </div>
+    </div>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('diseasePredictor', () => ({
+                formData: {
+                    age: '',
+                    gender: '',
+                    blood_pressure: '',
+                    cholesterol: '',
+                    fever: false,
+                    cough: false,
+                    fatigue: false,
+                    difficulty_breathing: false
+                },
+
+                result: null,
+                loading: false,
+
+                predictDisease() {
+                    this.loading = true;
+                    this.result = null;
+
+                    // Prepare form data
+                    const payload = {
+                        age: this.formData.age,
+                        gender: this.formData.gender,
+                        blood_pressure: this.formData.blood_pressure,
+                        cholesterol: this.formData.cholesterol,
+                        fever: this.formData.fever ? 'Yes' : 'No',
+                        cough: this.formData.cough ? 'Yes' : 'No',
+                        fatigue: this.formData.fatigue ? 'Yes' : 'No',
+                        difficulty_breathing: this.formData.difficulty_breathing ? 'Yes' : 'No'
+                    };
+
+                    fetch('/predict', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: new URLSearchParams(payload)
+                    })
+                        .then(async response => {
+                            const data = await response.json();
+
+                            if (!response.ok) {
+                                throw new Error(data.error || 'Prediction failed');
+                            }
+
+                            return data;
+                        })
+                        .then(data => {
+                            this.result = data;
+                            this.result.description = this.getDiseaseDescription(data.disease);
+                        })
+                        .catch(error => {
+                            this.result = {
+                                error: error.message,
+                                status: 'error'
+                            };
+                            console.error('Prediction error:', error);
+                        })
+                        .finally(() => {
+                            this.loading = false;
+                        });
+                },
+
+                getDiseaseDescription(disease) {
+                    const descriptions = {
+                        'Acne': 'Skin condition causing pimples due to clogged pores.',
+                        'Alzheimer\'s Disease': 'Brain disorder that affects memory and thinking.',
+                        'Allergic Rhinitis': 'Allergy causing sneezing, runny nose, and itchy eyes.',
+                        'Anemia': 'Low red blood cell count causing fatigue and weakness.',
+                        'Anxiety Disorders': 'Mental health conditions with excessive fear or worry.',
+                        'Appendicitis': 'Inflammation of the appendix, often needing surgery.',
+                        'Asthma': 'Chronic lung condition causing breathing difficulties.',
+                        'Atherosclerosis': 'Hardening of arteries due to plaque buildup.',
+                        'Autism Spectrum Disorder (ASD)': 'Developmental condition affecting communication and behavior.',
+                        'Bipolar Disorder': 'Mood disorder with extreme highs and lows.',
+                        'Bladder Cancer': 'Cancer that starts in the bladder lining.',
+                        'Brain Tumor': 'Abnormal growth of cells in the brain.',
+                        'Breast Cancer': 'Cancer that forms in breast cells.',
+                        'Bronchitis': 'Inflammation of bronchial tubes causing cough and mucus.',
+                        'Cataracts': 'Clouding of the eye’s lens causing vision problems.',
+                        'Cerebral Palsy': 'Group of disorders affecting movement and posture.',
+                        'Chickenpox': 'Viral infection with itchy rash and blisters.',
+                        'Cholecystitis': 'Inflammation of the gallbladder, usually from gallstones.',
+                        'Cholera': 'Severe diarrhea from a bacterial infection in water/food.',
+                        'Chronic Kidney Disease': 'Long-term loss of kidney function.',
+                        'Chronic Obstructive Pulmonary Disease (COPD)': 'Lung disease causing blocked airflow and breathing issues.',
+                        'Cirrhosis': 'Scarring of the liver from long-term damage.',
+                        'Colorectal Cancer': 'Cancer of the colon or rectum.',
+                        'Common Cold': 'Mild viral infection causing cough and congestion.',
+                        'Conjunctivitis (Pink Eye)': 'Eye inflammation causing redness and discharge.',
+                        'Coronary Artery Disease': 'Narrowed heart arteries that reduce blood flow.',
+                        'Crohn\'s Disease': 'Inflammatory bowel disease affecting digestion.',
+                        'Cystic Fibrosis': 'Genetic disease causing thick mucus in lungs and organs.',
+                        'Dementia': 'Group of conditions affecting memory and thinking.',
+                        'Dengue Fever': 'Mosquito-borne illness with fever and joint pain.',
+                        'Depression': 'Mental illness causing sadness and loss of interest.',
+                        'Diabetes': 'Disease that causes high blood sugar levels.',
+                        'Diverticulitis': 'Inflammation of pouches in the colon.',
+                        'Down Syndrome': 'Genetic disorder causing developmental delays.',
+                        'Eating Disorders (Anorexia, etc.)': 'Conditions with unhealthy eating behaviors.',
+                        'Eczema': 'Skin condition causing redness and itching.',
+                        'Ebola Virus': 'Severe viral disease with bleeding and organ failure.',
+                        'Endometriosis': 'Tissue similar to uterine lining grows outside the uterus.',
+                        'Epilepsy': 'Brain disorder causing recurring seizures.',
+                        'Esophageal Cancer': 'Cancer in the tube that connects mouth to stomach.',
+                        'Fibromyalgia': 'Chronic pain disorder with fatigue and tenderness.',
+                        'Gastroenteritis': 'Inflammation of the stomach and intestines.',
+                        'Glaucoma': 'Eye condition that damages the optic nerve.',
+                        'Gout': 'Joint inflammation from uric acid crystals.',
+                        'Hemophilia': 'Inherited bleeding disorder with clotting problems.',
+                        'Hemorrhoids': 'Swollen veins in the rectum or anus.',
+                        'Hepatitis': 'Liver inflammation usually from a virus.',
+                        'Hepatitis B': 'Viral infection that affects the liver.',
+                        'HIV/AIDS': 'Immune system disease caused by the HIV virus.',
+                        'Hyperglycemia': 'High blood sugar, often seen in diabetes.',
+                        'Hypertension': 'High blood pressure.',
+                        'Hyperthyroidism': 'Overactive thyroid producing too many hormones.',
+                        'Hypoglycemia': 'Low blood sugar causing weakness and confusion.',
+                        'Hypothyroidism': 'Underactive thyroid producing too few hormones.',
+                        'Influenza': 'Contagious respiratory infection caused by a virus.',
+                        'Kidney Cancer': 'Cancer that starts in the kidneys.',
+                        'Kidney Disease': 'Damage or dysfunction of the kidneys.',
+                        'Klinefelter Syndrome': 'Genetic condition in males with an extra X chromosome.',
+                        'Liver Cancer': 'Cancer that begins in liver cells.',
+                        'Liver Disease': 'Disorders affecting liver function.',
+                        'Lung Cancer': 'Cancer that begins in the lungs.',
+                        'Lupus (Systemic Lupus Erythematosus)': 'Autoimmune disease causing inflammation throughout the body.',
+                        'Lyme Disease': 'Bacterial infection spread by ticks.',
+                        'Lymphoma': 'Cancer of the lymphatic system.',
+                        'Malaria': 'Mosquito-borne disease with fever and chills.',
+                        'Marfan Syndrome': 'Genetic disorder affecting connective tissue.',
+                        'Measles': 'Contagious viral infection with rash and fever.',
+                        'Melanoma': 'Dangerous skin cancer from pigment-producing cells.',
+                        'Migraine': 'Severe headache often with nausea and sensitivity to light.',
+                        'Multiple Sclerosis': 'Autoimmune disease damaging nerves in the brain and spine.',
+                        'Mumps': 'Viral infection causing swollen salivary glands.',
+                        'Muscular Dystrophy': 'Genetic disease causing muscle weakness.',
+                        'Myocardial Infarction (Heart Attack)': 'Blocked blood flow to the heart muscle.',
+                        'Obsessive-Compulsive Disorder (OCD)': 'Mental disorder with unwanted thoughts and repetitive behaviors.',
+                        'Osteoarthritis': 'Joint disease from cartilage breakdown.',
+                        'Osteomyelitis': 'Bone infection usually caused by bacteria.',
+                        'Osteoporosis': 'Weak bones that break easily.',
+                        'Otitis Media (Ear Infection)': 'Infection of the middle ear.',
+                        'Ovarian Cancer': 'Cancer in the ovaries.',
+                        'Pancreatic Cancer': 'Cancer in the pancreas, often hard to detect early.',
+                        'Pancreatitis': 'Inflammation of the pancreas.',
+                        'Parkinson\'s Disease': 'Brain disorder affecting movement and coordination.',
+                        'Pneumocystis Pneumonia (PCP)': 'Lung infection common in people with weakened immune systems.',
+                        'Pneumonia': 'Lung infection causing cough and difficulty breathing.',
+                        'Pneumothorax': 'Collapsed lung due to air in the chest cavity.',
+                        'Polio': 'Viral infection that can cause paralysis.',
+                        'Polycystic Ovary Syndrome (PCOS)': 'Hormonal disorder causing enlarged ovaries with cysts.',
+                        'Prader-Willi Syndrome': 'Genetic disorder causing hunger, poor growth, and intellectual issues.',
+                        'Prostate Cancer': 'Cancer in the prostate gland of men.',
+                        'Psoriasis': 'Autoimmune skin disease with red, scaly patches.',
+                        'Rabies': 'Deadly viral disease from animal bites.',
+                        'Rheumatoid Arthritis': 'Autoimmune disease causing joint pain and swelling.',
+                        'Rubella': 'Viral infection with rash, mild fever, and swollen glands.',
+                        'Schizophrenia': 'Mental disorder with hallucinations and disorganized thinking.',
+                        'Scoliosis': 'Sideways curvature of the spine.',
+                        'Sepsis': 'Life-threatening body response to infection.',
+                        'Sickle Cell Anemia': 'Genetic blood disorder causing misshapen red cells.',
+                        'Sinusitis': 'Inflammation of the sinuses causing pain and congestion.',
+                        'Sleep Apnea': 'Breathing stops and starts during sleep.',
+                        'Spina Bifida': 'Birth defect of the spinal cord.',
+                        'Stroke': 'Interrupted blood supply to the brain.',
+                        'Testicular Cancer': 'Cancer in the testicles.',
+                        'Tetanus': 'Bacterial infection causing muscle stiffness.',
+                        'Thyroid Cancer': 'Cancer in the thyroid gland.',
+                        'Tonsillitis': 'Inflammation of the tonsils, usually due to infection.',
+                        'Tourette Syndrome': 'Disorder with repetitive movements or vocal sounds.',
+                        'Tuberculosis': 'Bacterial infection that mainly affects the lungs.',
+                        'Turner Syndrome': 'Genetic disorder in females with missing X chromosome.',
+                        'Typhoid Fever': 'Bacterial infection from contaminated food or water.',
+                        'Ulcerative Colitis': 'Chronic inflammation of the colon lining.',
+                        'Urinary Tract Infection': 'Infection in the urinary system.',
+                        'Urinary Tract Infection (UTI)': 'Infection in the urinary system.',
+                        'Williams Syndrome': 'Genetic disorder causing developmental delays and heart problems.',
+                        'Zika Virus': 'Mosquito-borne virus causing birth defects if pregnant.',
+
+                    };
+                    return descriptions[disease] || 'No additional information available.';
+                }
+            }));
+        });
+    </script>
+{% endblock %}
